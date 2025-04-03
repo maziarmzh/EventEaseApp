@@ -1,0 +1,29 @@
+﻿@page "/"
+@inject NavigationManager Navigation
+
+<div style="text-align: center;">
+    <h1>Welcome to EventEase!</h1>
+
+    <div class="homepage-container">
+        <p>
+            EventEase is your go-to **event management platform, designed to streamline the way users discover, register, and participate in corporate and social events. With easy navigation, clear event details, and seamless registration, EventEase ensures a smooth experience for event-goers and organizers alike.
+        </p>
+
+        <h2>Features:</h2>
+        <ul>
+            <li>Browse a wide range of events – conferences, festivals, workshops, and more.</li>
+            <li>View details like event name, date, and location.</li>
+            <li>Register for events in just a few clicks.</li>
+            <li>Manage your attendance and participation effortlessly.</li>
+        </ul>
+
+        <div class="button-container">
+            <button class="btn btn-primary" @onclick='() => Navigation.NavigateTo("/registration")'>
+               Register for an Event
+            </button>
+            <button class="btn btn-secondary" @onclick='() => Navigation.NavigateTo("/events")'>
+               View Events
+            </button>
+        </div>
+    </div>
+</div>

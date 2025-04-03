@@ -1,0 +1,12 @@
+﻿@using EventEaseApp.Data
+
+<div class="event-card">
+    <h3>@Event.Name</h3>
+    <p>Date: @Event.Date</p>
+    <p>Location: @Event.Location</p>
+</div>
+
+@code {
+    [Parameter]
+    public EventModel Event { get; set; }
+}

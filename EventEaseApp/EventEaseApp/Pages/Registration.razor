@@ -1,0 +1,58 @@
+﻿@page "/registration"
+@using System.ComponentModel.DataAnnotations
+@using EventEaseApp.Services
+@using EventEaseApp.Data
+@inject EventService EventService
+@inject Tracker AttendanceTrackers
+@inject RegistrationService RegistrationService
+
+<h1>Register for an Event</h1>
+
+<EditForm Model="@registrationForm" OnValidSubmit="HandleRegistration">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label>Name:</label>
+        <InputText @bind-Value="registrationForm.Name" class="form-control" />
+    </div>
+    <div>
+        <label>Email:</label>
+        <InputText @bind-Value="registrationForm.Email" type="email" class="form-control" />
+    </div>
+    <div>
+        <label>Select Event:</label>
+        <InputSelect @bind-Value="registrationForm.SelectedEventId" class="form-control">
+            <option value="">-- Choose an Event --</option>
+            @foreach (var eventItem in Events)
+            {
+                <option value="@eventItem.Id">@eventItem.Name - @eventItem.Date</option>
+            }
+        </InputSelect>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</EditForm>
+
+@if (registrationSuccess)
+{
+    <p class="alert alert-success">Your seat is reserved! A confirmation email is on its way to your inbox.</p>
+}
+
+@code {
+    private RegistrationModel registrationForm = new RegistrationModel();
+    private List<EventModel> Events;
+    private bool registrationSuccess = false;
+
+    protected override void OnInitialized()
+    {
+        Events = EventService.GetEvents(); // Load event list.
+    }
+
+    private void HandleRegistration()
+    {
+        RegistrationService.Register(registrationForm); // Register user in RegistrationService.
+        AttendanceTrackers.RegisterAttendee(registrationForm.Name); // Add attendee to AttendanceTracker.
+        registrationSuccess = true; // Flag for successful registration.
+    }
+}

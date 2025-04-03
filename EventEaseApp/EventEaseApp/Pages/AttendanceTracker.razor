@@ -1,0 +1,41 @@
+﻿@page "/attendance"  
+@using EventEaseApp.Services  
+@using EventEaseApp.Data  
+@inject Tracker AttendanceService  
+
+<h1>Event Attendance Tracker</h1>  
+
+@if (Attendees.Count == 0)  
+{  
+    <p>No attendees registered yet.</p>  
+}  
+else  
+{  
+    <table class="table table-striped">  
+        <thead>  
+            <tr>  
+                <th>#</th>  
+                <th>Attendee Name</th>  
+            </tr>  
+        </thead>  
+        <tbody>  
+            @foreach (var attendee in Attendees)  
+            {  
+                <tr>  
+                    <td>@(Attendees.IndexOf(attendee) + 1)</td>  
+                    <td>@attendee</td>  
+                </tr>  
+            }  
+        </tbody>  
+    </table>  
+}  
+
+@code {
+    private List<string> Attendees;  
+
+    protected override void OnInitialized()  
+    {
+        // Fetch attendees from the service  
+        Attendees = AttendanceService.GetAttendees();
+    }  
+}
